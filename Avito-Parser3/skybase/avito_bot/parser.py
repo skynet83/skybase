@@ -2,6 +2,7 @@ import os
 import re
 import json
 import time
+from datetime import datetime
 import socket
 import logging
 import asyncio
@@ -976,25 +977,76 @@ class AvitoParser:
                                 s_type = "Компания" if seller_inf.get("isShop") else "Частное лицо"
                             s_addr = seller_inf.get("logoImageAlt")
 
-                            def _extract_time_from_freeform(node):
-                                if isinstance(node, dict):
-                                    nid = str(node.get("id", "")).lower()
-                                    if "sorttime" in nid or "date" in nid:
-                                        t = node.get("text")
-                                        if t and isinstance(t, str) and t.strip():
-                                            return t.strip()
-                                    for v in node.values():
-                                        res = _extract_time_from_freeform(v)
-                                        if res:
-                                            return res
-                                elif isinstance(node, list):
-                                    for x in node:
-                                        res = _extract_time_from_freeform(x)
-                                        if res:
-                                            return res
+                            def _format_ts_to_ru_date_p(ts):
+                                try:
+                                    ts_fl = float(ts)
+                                    if ts_fl > 1e11:
+                                        ts_fl /= 1000.0
+                                    if 1e9 <= ts_fl <= 2e10:
+                                        dt = datetime.fromtimestamp(ts_fl)
+                                        now_dt = datetime.now()
+                                        ru_m = {
+                                            1: "января", 2: "февраля", 3: "марта", 4: "апреля", 5: "мая", 6: "июня",
+                                            7: "июля", 8: "августа", 9: "сентября", 10: "октября", 11: "ноября", 12: "декабря"
+                                        }
+                                        m_name = ru_m.get(dt.month, "")
+                                        if dt.year == now_dt.year:
+                                            return f"{dt.day} {m_name} в {dt.strftime('%H:%M')}".strip()
+                                        else:
+                                            return f"{dt.day} {m_name} {dt.year} в {dt.strftime('%H:%M')}".strip()
+                                except Exception:
+                                    pass
                                 return None
 
-                            s_date = _extract_time_from_freeform(it_val.get("freeForm", []))
+                            def _extract_item_date_from_val(val_dict):
+                                if not isinstance(val_dict, dict):
+                                    return None
+                                # 1. Прямые поля unix timestamp
+                                for ts_k in ["sortTimeStamp", "sortTimestamp", "timestamp", "publishTime", "createdTime", "createTime"]:
+                                    t_val = val_dict.get(ts_k)
+                                    if t_val is not None:
+                                        ru_d = _format_ts_to_ru_date_p(t_val)
+                                        if ru_d:
+                                            return ru_d
+                                # 2. Прямые строковые / числовые поля
+                                for k in ["sortTime", "itemDate", "ivaItemDate", "publishedAt", "createdDate", "time", "displayDate"]:
+                                    f_val = val_dict.get(k)
+                                    if f_val and isinstance(f_val, (int, float)):
+                                        ru_d = _format_ts_to_ru_date_p(f_val)
+                                        if ru_d:
+                                            return ru_d
+                                    if f_val and isinstance(f_val, str) and f_val.strip():
+                                        s_f = f_val.strip()
+                                        if any(w in s_f.lower() for w in ["сегодня", "вчера", "назад", "янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек", ":"]):
+                                            return s_f
+                                # 3. Рекурсивный поиск во вложенных структурах (freeForm, iva и др.)
+                                def _search_rec(node, depth=0):
+                                    if depth > 6:
+                                        return None
+                                    if isinstance(node, dict):
+                                        t = node.get("text")
+                                        if t and isinstance(t, str) and t.strip():
+                                            s_t = t.strip()
+                                            if any(w in s_t.lower() for w in ["сегодня", "вчера", "назад", "янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]):
+                                                return s_t
+                                        nid = str(node.get("id", "")).lower()
+                                        if "sorttime" in nid or "date" in nid:
+                                            if t and isinstance(t, str) and t.strip():
+                                                return t.strip()
+                                        for v in node.values():
+                                            res = _search_rec(v, depth + 1)
+                                            if res:
+                                                return res
+                                    elif isinstance(node, list):
+                                        for x in node:
+                                            res = _search_rec(x, depth + 1)
+                                            if res:
+                                                return res
+                                    return None
+
+                                return _search_rec(val_dict.get("freeForm", [])) or _search_rec(val_dict.get("iva", {}))
+
+                            s_date = _extract_item_date_from_val(it_val)
 
                             raw_badges = it_val.get("badges", [])
                             badge_text = ""
@@ -1422,14 +1474,27 @@ class AvitoParser:
                     date_el = (
                         it.select_one('[data-marker="sortTimeGrid"]') or
                         it.select_one('[data-marker*="sortTime"]') or
+                        it.select_one('[data-marker*="sort-timestamp"]') or
+                        it.select_one('[data-marker*="item-date"]') or
                         it.select_one('[data-marker*="date"]') or
                         it.select_one('[class*="sortTime"]') or
+                        it.select_one('[class*="item-date"]') or
                         it.select_one('[class*="date"]')
                     )
                     if date_el:
                         raw_date = date_el.get_text(" ", strip=True)
                         if raw_date and not any(w in raw_date.lower() for w in ['доставка', '₽', 'купить', 'в избранное', 'отзыв']):
                             item_date = raw_date
+
+                if not item_date:
+                    card_text = it.get_text(" ", strip=True)
+                    m_ru = re.search(r'(\d{1,2}\s+(?:январ[яе]|феврал[яе]|март[ае]|апрел[яе]|ма[яе]|июн[яе]|июл[яе]|август[ае]|сентябр[яе]|октябр[яе]|ноябр[яе]|декабр[яе])(?:\s+\d{4})?(?:\s+в\s+\d{1,2}:\d{2})?)', card_text, re.IGNORECASE)
+                    if m_ru:
+                        item_date = m_ru.group(1).strip()
+                    else:
+                        m_rel = re.search(r'((?:сегодня|вчера)(?:\s+в\s+\d{1,2}:\d{2})?|\d+\s*(?:мин[а-я]*|час[а-я]*|дн[а-я]*|недел[а-я]*)\s+назад|только что)', card_text, re.IGNORECASE)
+                        if m_rel:
+                            item_date = m_rel.group(1).strip()
 
                 seller_rating = state_item.get("seller_rating")
                 if not seller_rating:

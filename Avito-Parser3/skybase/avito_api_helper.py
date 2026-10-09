@@ -4335,6 +4335,23 @@ def _fetch_item_details_curl_cffi(clean_id: str, target_url: str, proxy: str) ->
                 if d_text and not any(w in d_text.lower() for w in ["доставка", "купить", "₽"]):
                     item_date = d_text
 
+            if not item_date:
+                m_hdr = re.search(r'№\s*\d+\s*·\s*([^·\n<]+?)\s*·', html_text)
+                if m_hdr:
+                    cand = m_hdr.group(1).strip()
+                    if cand and any(w in cand.lower() for w in ["сегодня", "вчера", "янв", "фев", "мар", "апр", "май", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек", "назад", ":"]):
+                        item_date = cand
+
+            if not item_date:
+                m_dot = re.search(r'·\s*(\d{1,2}\s+(?:январ[яе]|феврал[яе]|март[ае]|апрел[яе]|ма[яе]|июн[яе]|июл[яе]|август[ае]|сентябр[яе]|октябр[яе]|ноябр[яе]|декабр[яе])(?:\s+\d{4})?(?:\s+в\s+\d{1,2}:\d{2})?)\s*·', html_text, re.IGNORECASE)
+                if m_dot:
+                    item_date = m_dot.group(1).strip()
+
+            if not item_date:
+                m_sv = re.search(r'·\s*((?:сегодня|вчера)\s+в\s+\d{1,2}:\d{2})\s*·', html_text, re.IGNORECASE)
+                if m_sv:
+                    item_date = m_sv.group(1).strip()
+
             photos = []
             m_init = re.search(r'window\.__initialData__\s*=\s*(".*?"|{.*?});', html_text, re.DOTALL)
             if m_init:
@@ -4372,11 +4389,41 @@ def _fetch_item_details_curl_cffi(clean_id: str, target_url: str, proxy: str) ->
                     if not desc:
                         desc = _find_desc_rec(data)
 
+                    RU_MONTHS_API = {
+                        1: "января", 2: "февраля", 3: "марта", 4: "апреля", 5: "мая", 6: "июня",
+                        7: "июля", 8: "августа", 9: "сентября", 10: "октября", 11: "ноября", 12: "декабря"
+                    }
+
+                    def _format_ts_to_ru_date(ts):
+                        try:
+                            ts_fl = float(ts)
+                            if ts_fl > 1e11:
+                                ts_fl /= 1000.0
+                            if 1e9 <= ts_fl <= 2e10:
+                                dt = datetime.fromtimestamp(ts_fl)
+                                now_dt = datetime.now()
+                                m_name = RU_MONTHS_API.get(dt.month, "")
+                                if dt.year == now_dt.year:
+                                    return f"{dt.day} {m_name} в {dt.strftime('%H:%M')}".strip()
+                                else:
+                                    return f"{dt.day} {m_name} {dt.year} в {dt.strftime('%H:%M')}".strip()
+                        except Exception:
+                            pass
+                        return None
+
                     def _find_date_rec(obj, depth=0):
                         if depth > 10: return ""
                         if isinstance(obj, dict):
-                            for k in ["itemDate", "sortTime", "publishedAt", "createdDate", "time"]:
+                            for ts_k in ["sortTimeStamp", "sortTimestamp", "timestamp", "publishTime", "createdTime", "createTime"]:
+                                val = obj.get(ts_k)
+                                if val is not None:
+                                    ru_d = _format_ts_to_ru_date(val)
+                                    if ru_d: return ru_d
+                            for k in ["itemDate", "sortTime", "publishedAt", "createdDate", "time", "date", "displayDate", "ivaItemDate"]:
                                 val = obj.get(k)
+                                if val and isinstance(val, (int, float)):
+                                    ru_d = _format_ts_to_ru_date(val)
+                                    if ru_d: return ru_d
                                 if val and isinstance(val, str) and len(val.strip()) > 2 and any(ch in val.lower() for ch in ["сегодня", "вчера", "назад", "янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек", ":"]):
                                     return val.strip().lstrip("·, ")
                             for v in obj.values():
@@ -4390,6 +4437,11 @@ def _fetch_item_details_curl_cffi(clean_id: str, target_url: str, proxy: str) ->
 
                     if not item_date:
                         item_date = _find_date_rec(data)
+
+                    if item_date:
+                        item_date = re.sub(r'^№\s*\d+\s*·\s*', '', item_date, flags=re.IGNORECASE)
+                        item_date = re.sub(r'\s*·\s*\d+\s*просмотр.*$', '', item_date, flags=re.IGNORECASE)
+                        item_date = item_date.strip(' ·,–—')
 
                     def _extract_img_from_dict(d):
                         if not isinstance(d, dict):
@@ -4481,12 +4533,12 @@ def fetch_avito_item_details_live(item_id: str, item_url: Optional[str] = None) 
         for f in concurrent.futures.as_completed(futures):
             try:
                 res = f.result()
-                if res and res.get("description") and len(res["description"].strip()) > 5:
+                if res and ((res.get("description") and len(res["description"].strip()) > 5) or (res.get("item_date") and len(res["item_date"].strip()) > 0) or (res.get("photos") and len(res["photos"]) > 0)):
                     best_res = res
                     break
             except Exception:
                 pass
-    if best_res and best_res.get("description") and len(best_res["description"].strip()) > 5:
+    if best_res and ((best_res.get("description") and len(best_res["description"].strip()) > 5) or (best_res.get("item_date") and len(best_res["item_date"].strip()) > 0) or (best_res.get("photos") and len(best_res["photos"]) > 0)):
         return best_res
 
     # 2. Надежный Fallback: запуск Playwright строго через проверенный прокси с авто-решением PoW
@@ -4496,7 +4548,7 @@ def fetch_avito_item_details_live(item_id: str, item_url: Optional[str] = None) 
                 future = ex.submit(asyncio.run, _fetch_avito_item_details_async(clean_id, target_url, px))
                 try:
                     res = future.result(timeout=14)
-                    if res.get("description") or (res.get("photos") and len(res["photos"]) > 0):
+                    if res.get("description") or (res.get("photos") and len(res["photos"]) > 0) or res.get("item_date"):
                         return res
                 except Exception:
                     pass
@@ -4695,18 +4747,41 @@ async def _fetch_avito_item_details_async(item_id: str, item_url: Optional[str] 
                     except Exception:
                         pass
 
+                item_date = ""
+                try:
+                    item_date = await page.evaluate("""() => {
+                        const el = document.querySelector('[data-marker="item-view/item-date"], [data-marker*="item-date"], [class*="style-item-date"], [class*="item-date"]');
+                        if (el && el.innerText.trim()) return el.innerText.trim();
+                        const allNodes = document.querySelectorAll('span, div, p');
+                        for (const n of allNodes) {
+                            const txt = (n.innerText || '').trim();
+                            if (txt.startsWith('№') && txt.includes('·')) {
+                                const m = txt.match(/№\s*\d+\s*·\s*([^·\n]+?)\s*·/);
+                                if (m && m[1]) return m[1].trim();
+                            }
+                        }
+                        return '';
+                    }""")
+                    if item_date:
+                        item_date = re.sub(r'^№\s*\d+\s*·\s*', '', item_date, flags=re.IGNORECASE)
+                        item_date = re.sub(r'\s*·\s*\d+\s*просмотр.*$', '', item_date, flags=re.IGNORECASE)
+                        item_date = item_date.strip(' ·,–—')
+                except Exception:
+                    pass
+
                 await b.close()
                 return {
                     "photos": photos or [],
                     "description": description or "",
                     "reviews": reviews or [],
-                    "reviews_count": len(reviews) if reviews else 0
+                    "reviews_count": len(reviews) if reviews else 0,
+                    "item_date": item_date or ""
                 }
             except Exception:
                 await b.close()
-                return {"photos": [], "description": "", "reviews": []}
+                return {"photos": [], "description": "", "reviews": [], "item_date": ""}
     except Exception:
-        return {"photos": [], "description": "", "reviews": []}
+        return {"photos": [], "description": "", "reviews": [], "item_date": ""}
 
 def get_item_details(item_id: str, item_url: Optional[str] = None) -> dict:
     """Возвращает полные данные лота: все реальные фото с Авито, реальное описание товара, цену, продавца, рейтинг и отзывы."""
@@ -4767,12 +4842,14 @@ def get_item_details(item_id: str, item_url: Optional[str] = None) -> dict:
             except Exception:
                 pass
 
-        # Если описания ещё нет в базе (или оно короткое) или нет фото или были поврежденные фото — запрашиваем детали лота с Авито
+        # Если описания ещё нет в базе (или оно короткое) или нет фото или были поврежденные фото или не указана дата — запрашиваем детали лота с Авито
         need_fetch = (
             not item_dict.get("description") 
             or len(item_dict.get("description", "").strip()) < 20
             or not photos
             or had_corrupted
+            or not item_dict.get("item_date")
+            or not str(item_dict.get("item_date", "")).strip()
         )
         if need_fetch:
             proxy_server = get_live_proxy_server()
@@ -4788,7 +4865,7 @@ def get_item_details(item_id: str, item_url: Optional[str] = None) -> dict:
                         item_dict["description"] = live_desc
                         cur.execute("UPDATE seen_items SET description = ? WHERE item_id = ?", (live_desc, clean_id))
                         updated = True
-                    if live_date and (not item_dict.get("item_date") or item_dict.get("item_date") == ""):
+                    if live_date and (not item_dict.get("item_date") or item_dict.get("item_date") == "" or ("назад" in item_dict.get("item_date", "") and "назад" not in live_date)):
                         item_dict["item_date"] = live_date
                         cur.execute("UPDATE seen_items SET item_date = ? WHERE item_id = ?", (live_date, clean_id))
                         updated = True

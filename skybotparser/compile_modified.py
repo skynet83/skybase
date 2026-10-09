@@ -8,8 +8,9 @@ SRC_DIR = r"D:\ins\skybase\Avito-Parser3\skybase"
 PYD_DIR = os.path.join(BASE_DIR, "test_pyd")
 
 targets = [
-    os.path.join(SRC_DIR, "gateway.py"),
-    os.path.join(SRC_DIR, "app_launcher.py"),
+    os.path.join(SRC_DIR, "avito_api_helper.py"),
+    os.path.join(SRC_DIR, "avito_bot", "parser.py"),
+    os.path.join(SRC_DIR, "avito_bot", "database.py"),
 ]
 
 python_exe = r"C:\Users\Admin\AppData\Local\Programs\Python\Python311\python.exe"

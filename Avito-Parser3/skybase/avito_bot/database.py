@@ -361,6 +361,11 @@ async def add_seen(user_id: int, item_id: str, title: str, price: str, url: str,
                 "UPDATE seen_items SET description = ? WHERE user_id = ? AND item_id = ? AND (description IS NULL OR description = '')",
                 (description, user_id, str(item_id))
             )
+        if item_date:
+            await db.execute(
+                "UPDATE seen_items SET item_date = ? WHERE user_id = ? AND item_id = ? AND (item_date IS NULL OR item_date = '' OR (item_date LIKE '%назад%' AND ? NOT LIKE '%назад%'))",
+                (item_date, user_id, str(item_id), item_date)
+            )
         await db.commit()
 
 
@@ -418,7 +423,7 @@ async def update_seen_details_if_missing(user_id: int, item_id: str, photo: Opti
             if seller_type and (not db_seller_type or db_seller_type == "Частное лицо"):
                 updates.append("seller_type = ?")
                 params.append(seller_type)
-            if item_date and (not db_item_date or db_item_date == ""):
+            if item_date and (not db_item_date or db_item_date == "" or ("назад" in db_item_date and "назад" not in item_date)):
                 updates.append("item_date = ?")
                 params.append(item_date)
             if seller_rating and (not db_seller_rating or db_seller_rating == ""):

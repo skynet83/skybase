@@ -8275,16 +8275,33 @@ function getAvitoItemSeenMs(item) {
   return 0;
 }
 
+function cleanAvitoRawDateText(str) {
+  if (!str) return '';
+  let s = String(str).trim();
+  s = s.replace(/^№\s*\d+\s*·\s*/i, '');
+  s = s.replace(/\s*·\s*\d+\s*просмотр.*$/i, '');
+  s = s.replace(/^[·,–—\s]+|[·,–—\s]+$/g, '');
+  return s;
+}
+
 function getAvitoItemTimeMs(item) {
   if (!item) return 0;
+  const rawDateStr = cleanAvitoRawDateText(item.item_date);
+  if (!rawDateStr) {
+    return 0; // Строго 0! Никогда не подставляем seen_at вместо времени Авито
+  }
+
   let baseMs = getAvitoItemSeenMs(item);
   if (!baseMs) {
     baseMs = Date.now();
   }
 
-  const rawDate = (item.item_date || '').trim().toLowerCase();
-  if (!rawDate) {
-    return baseMs;
+  const rawDate = rawDateStr.toLowerCase();
+
+  // Числовой timestamp (ms или сек)
+  if (/^\d{10,13}$/.test(rawDateStr)) {
+    const num = parseInt(rawDateStr, 10);
+    return num > 1e11 ? num : num * 1000;
   }
 
   // "только что", "секунд назад", "прямо сейчас"
@@ -8367,7 +8384,7 @@ function getAvitoItemTimeMs(item) {
     return baseMs - (30 * 86400 * 1000);
   }
 
-  // Месяцы: 23 сентября в 14:15 или 23 сентября 2025
+  // Месяцы: 25 сентября в 12:28 или 25 сентября 2025 в 12:28
   const months = {
     'янв': 0, 'фев': 1, 'мар': 2, 'апр': 3, 'май': 4, 'мая': 4,
     'июн': 5, 'июл': 6, 'авг': 7, 'сен': 8, 'окт': 9, 'ноя': 10, 'дек': 11
@@ -8414,32 +8431,16 @@ function getAvitoItemTimeMs(item) {
     return dIso;
   }
 
-  return baseMs;
+  return 0;
 }
 
-/**
- * Форматирует время карточки в человекочитаемый вид:
- * "10 секунд назад", "1 секунду назад", "2 минуты назад", "45 минут назад", "1 час назад", "вчера в 14:30", и т.д.
- * Если время неизвестно — возвращает исходную строку item_date или seen_at.
- */
-function formatAvitoRelativeTime(item) {
-  if (!item) return '';
+function formatAvitoElapsedAgo(diffMs) {
+  if (diffMs < 0) return 'только что';
+  const secs  = Math.floor(diffMs / 1000);
+  const mins  = Math.floor(diffMs / 60000);
+  const hours = Math.floor(diffMs / 3600000);
+  const days  = Math.floor(diffMs / 86400000);
 
-  const ms = getAvitoItemTimeMs(item);
-  const now = Date.now();
-  const diff = now - ms; // разница в мс
-
-  // Если время в будущем или неопределено — показываем оригинал
-  if (!ms || diff < 0) {
-    return item.item_date || (item.seen_at ? item.seen_at.replace('T', ' ') : '');
-  }
-
-  const secs  = Math.floor(diff / 1000);
-  const mins  = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days  = Math.floor(diff / 86400000);
-
-  // Секунды (меньше 60 секунд)
   if (secs < 60) {
     const s = Math.max(1, secs);
     const mod10 = s % 10;
@@ -8449,7 +8450,6 @@ function formatAvitoRelativeTime(item) {
     return `${s} секунд назад`;
   }
 
-  // Минуты (меньше 60 минут)
   if (mins < 60) {
     const mod10 = mins % 10;
     const mod100 = mins % 100;
@@ -8458,7 +8458,6 @@ function formatAvitoRelativeTime(item) {
     return `${mins} минут назад`;
   }
 
-  // Часы (меньше 24 часов)
   if (hours < 24) {
     const mod10 = hours % 10;
     const mod100 = hours % 100;
@@ -8467,16 +8466,7 @@ function formatAvitoRelativeTime(item) {
     return `${hours} часов назад`;
   }
 
-  // Вчера
-  if (days === 1) {
-    const d = new Date(ms);
-    const hh = String(d.getHours()).padStart(2, '0');
-    const mm = String(d.getMinutes()).padStart(2, '0');
-    return `вчера в ${hh}:${mm}`;
-  }
-
-  // 2–6 дней назад
-  if (days < 7) {
+  if (days < 30) {
     const mod10 = days % 10;
     const mod100 = days % 100;
     if (mod10 === 1 && mod100 !== 11) return `${days} день назад`;
@@ -8484,21 +8474,77 @@ function formatAvitoRelativeTime(item) {
     return `${days} дней назад`;
   }
 
-  // Иначе — показываем дату
-  const d = new Date(ms);
-  const dd  = String(d.getDate()).padStart(2, '0');
-  const mmo = String(d.getMonth() + 1).padStart(2, '0');
-  const hh  = String(d.getHours()).padStart(2, '0');
-  const mm  = String(d.getMinutes()).padStart(2, '0');
-  const yearNow = new Date().getFullYear();
-  if (d.getFullYear() === yearNow) {
-    return `${dd}.${mmo} в ${hh}:${mm}`;
+  const months = Math.floor(days / 30);
+  if (months < 12) {
+    const mod10 = months % 10;
+    const mod100 = months % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${months} месяц назад`;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 > 20)) return `${months} месяца назад`;
+    return `${months} месяцев назад`;
   }
-  return `${dd}.${mmo}.${d.getFullYear()} в ${hh}:${mm}`;
+
+  const years = Math.floor(days / 365);
+  const mod10 = years % 10;
+  const mod100 = years % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${years} год назад`;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 > 20)) return `${years} года назад`;
+  return `${years} лет назад`;
+}
+
+function formatAvitoCardDateDisplay(item) {
+  if (!item) {
+    return { text: 'Дата на Авито не указана', title: 'Дата создания на Авито не указана', isReal: false };
+  }
+
+  const raw = cleanAvitoRawDateText(item.item_date);
+  if (!raw) {
+    const seen = item.seen_at ? item.seen_at.replace('T', ' ') : '';
+    return {
+      text: 'Дата на Авито не указана',
+      title: seen ? `Дата создания на Авито не указана (Обнаружено ботом: ${seen})` : 'Дата создания на Авито не указана',
+      isReal: false
+    };
+  }
+
+  const ms = getAvitoItemTimeMs(item);
+  if (!ms) {
+    return {
+      text: raw,
+      title: `Время создания на Avito: ${raw}`,
+      isReal: true
+    };
+  }
+
+  const diffMs = Math.max(0, Date.now() - ms);
+  const ago = formatAvitoElapsedAgo(diffMs);
+
+  const rawLower = raw.toLowerCase();
+  const isAlreadyRelative = rawLower.includes('назад') || rawLower.includes('только что') || rawLower.includes('секунд');
+
+  let displayText = '';
+  if (isAlreadyRelative) {
+    displayText = ago;
+  } else {
+    // Пишем дату создания на Авито и рядом высчитанное время назад, например: 25 сентября в 12:28 (14 дней назад)
+    displayText = `${raw} (${ago})`;
+  }
+
+  return {
+    text: displayText,
+    title: `Время создания на Avito: ${raw} (${ago})`,
+    isReal: true
+  };
 }
 
 /**
- * Автоматически обновляет относительные таймеры (секунды, минуты, часы) на всех отображаемых карточках
+ * Для обратной совместимости: возвращает отформатированную строку даты карточки
+ */
+function formatAvitoRelativeTime(item) {
+  return formatAvitoCardDateDisplay(item).text;
+}
+
+/**
+ * Автоматически обновляет относительные таймеры (секунды, минуты, часы, дни) на всех отображаемых карточках
  */
 function updateAllAvitoCardTimestamps() {
   if (typeof currentCat !== 'undefined' && currentCat !== 'avito_monitor') return;
@@ -8517,15 +8563,9 @@ function updateAllAvitoCardTimestamps() {
     if (!item) return;
     const dateEl = card.querySelector('.avito-date-display');
     if (dateEl) {
-      if (item.item_date && String(item.item_date).trim()) {
-        dateEl.innerText = `🕒 ${String(item.item_date).trim()}`;
-        dateEl.title = `Время создания на Avito: ${item.item_date}`;
-      } else {
-        const rel = formatAvitoRelativeTime(item);
-        if (rel) {
-          dateEl.innerText = `🕒 ${rel}`;
-        }
-      }
+      const dateInfo = formatAvitoCardDateDisplay(item);
+      dateEl.innerText = `🕒 ${dateInfo.text}`;
+      dateEl.title = dateInfo.title;
     }
   });
 }
@@ -9346,8 +9386,8 @@ window.openItemGalleryModal = async function(itemId) {
                 <path d="M 82 15 H 98 M 93 10.5 L 98 15 L 93 19.5" stroke="#111111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
-            <span id="gallery-modal-item-date" style="font-size:0.75rem; color:var(--text-secondary, #94a3b8); margin-left:auto;" title="${it.item_date ? 'Время создания на Avito: ' + escapeHtml(it.item_date) : (it.seen_at ? 'Время обнаружения: ' + escapeHtml(it.seen_at) : '')}">
-              🕒 ${escapeHtml(it.item_date ? String(it.item_date).trim() : (it.seen_at ? it.seen_at.replace('T', ' ') : ''))}
+            <span id="gallery-modal-item-date" style="font-size:0.75rem; color:var(--text-secondary, #94a3b8); margin-left:auto;" title="${escapeHtml(formatAvitoCardDateDisplay(it).title)}">
+              🕒 ${escapeHtml(formatAvitoCardDateDisplay(it).text)}
             </span>
           </div>
           <h2 style="margin:0; font-size:1.22rem; font-weight:800; color:var(--text-primary, #f8fafc); line-height:1.35; overflow:hidden; text-overflow:ellipsis;">
@@ -9722,19 +9762,20 @@ window.openItemGalleryModal = async function(itemId) {
           }
 
           if (dItem.item_date && String(dItem.item_date).trim()) {
-            const cleanDate = String(dItem.item_date).trim();
+            const cleanDate = cleanAvitoRawDateText(dItem.item_date);
             it.item_date = cleanDate;
+            const dateInfo = formatAvitoCardDateDisplay(it);
             const modalDateEl = document.getElementById('gallery-modal-item-date');
             if (modalDateEl) {
-              modalDateEl.innerText = `🕒 ${cleanDate}`;
-              modalDateEl.title = `Время создания на Avito: ${cleanDate}`;
+              modalDateEl.innerText = `🕒 ${dateInfo.text}`;
+              modalDateEl.title = dateInfo.title;
             }
             const card = document.getElementById('avito-card-' + cleanId);
             if (card) {
               const cardDateEl = card.querySelector('.avito-date-display');
               if (cardDateEl) {
-                cardDateEl.innerText = `🕒 ${cleanDate}`;
-                cardDateEl.title = `Время создания на Avito: ${cleanDate}`;
+                cardDateEl.innerText = `🕒 ${dateInfo.text}`;
+                cardDateEl.title = dateInfo.title;
               }
             }
           }
@@ -9853,18 +9894,19 @@ window.retryFetchGalleryDescription = async function(itemId, rawUrlEncoded) {
       if (descEl) descEl.textContent = dItem.description;
 
       if (dItem.item_date && String(dItem.item_date).trim()) {
-        const cleanDate = String(dItem.item_date).trim();
+        const cleanDate = cleanAvitoRawDateText(dItem.item_date);
+        const dateInfo = formatAvitoCardDateDisplay({ ...dItem, item_date: cleanDate });
         const modalDateEl = document.getElementById('gallery-modal-item-date');
         if (modalDateEl) {
-          modalDateEl.innerText = `🕒 ${cleanDate}`;
-          modalDateEl.title = `Время создания на Avito: ${cleanDate}`;
+          modalDateEl.innerText = `🕒 ${dateInfo.text}`;
+          modalDateEl.title = dateInfo.title;
         }
         const card = document.getElementById('avito-card-' + cleanId);
         if (card) {
           const cardDateEl = card.querySelector('.avito-date-display');
           if (cardDateEl) {
-            cardDateEl.innerText = `🕒 ${cleanDate}`;
-            cardDateEl.title = `Время создания на Avito: ${cleanDate}`;
+            cardDateEl.innerText = `🕒 ${dateInfo.text}`;
+            cardDateEl.title = dateInfo.title;
           }
         }
       }
@@ -10088,23 +10130,23 @@ function renderAvitoMonitor(filterQuery) {
       const pA = parseAvitoPrice(a.price);
       const pB = parseAvitoPrice(b.price);
       if (pA !== pB) return pA - pB;
-      const tA = getAvitoItemTimeMs(a);
-      const tB = getAvitoItemTimeMs(b);
+      const tA = getAvitoItemTimeMs(a) || getAvitoItemSeenMs(a);
+      const tB = getAvitoItemTimeMs(b) || getAvitoItemSeenMs(b);
       if (tB !== tA) return tB - tA;
       return (Number(b.item_id) || 0) - (Number(a.item_id) || 0);
     } else if (currentAvitoSort === 'price_desc') {
       const pA = parseAvitoPrice(a.price);
       const pB = parseAvitoPrice(b.price);
       if (pA !== pB) return pB - pA;
-      const tA = getAvitoItemTimeMs(a);
-      const tB = getAvitoItemTimeMs(b);
+      const tA = getAvitoItemTimeMs(a) || getAvitoItemSeenMs(a);
+      const tB = getAvitoItemTimeMs(b) || getAvitoItemSeenMs(b);
       if (tB !== tA) return tB - tA;
       return (Number(b.item_id) || 0) - (Number(a.item_id) || 0);
     } else {
       // По дате: сначала самые новые по дате публикации на Авито, затем старее
       // 1. Время публикации на Авито
-      const tA = getAvitoItemTimeMs(a);
-      const tB = getAvitoItemTimeMs(b);
+      const tA = getAvitoItemTimeMs(a) || getAvitoItemSeenMs(a);
+      const tB = getAvitoItemTimeMs(b) || getAvitoItemSeenMs(b);
       if (tB !== tA) return tB - tA;
 
       // 2. Время обнаружения сервером (seen_at)
@@ -10462,9 +10504,9 @@ function renderAvitoMonitor(filterQuery) {
       const address = it.address ? escapeHtml(it.address) : 'Не указан';
       const searchName = escapeHtml(getDisplaySearchName(it));
       const seenTime = it.seen_at ? it.seen_at.replace('T', ' ') : '';
-      const isRealAvitoDate = Boolean(it.item_date && String(it.item_date).trim());
-      const cardDateText = isRealAvitoDate ? String(it.item_date).trim() : (formatAvitoRelativeTime(it) || seenTime);
-      const cardDateTitle = isRealAvitoDate ? `Время создания на Avito: ${escapeHtml(it.item_date)}` : `Время обнаружения: ${escapeHtml(seenTime)}`;
+      const dateInfo = formatAvitoCardDateDisplay(it);
+      const cardDateText = dateInfo.text;
+      const cardDateTitle = dateInfo.title;
       const hasDelivery = Boolean(it.has_delivery);
       const deliveryText = formatCardDeliveryText(it);
       const sellerType = it.seller_type || (it.is_company ? 'Компания' : 'Частное лицо');
@@ -12650,10 +12692,12 @@ function updateCardPhotoInPlace(itemId, photoUrl, newPrice, address, seller, has
   }
 
   if (itemDate) {
+    const cleanDate = cleanAvitoRawDateText(itemDate);
     const dateEl = card.querySelector('.avito-date-display');
     if (dateEl) {
-      dateEl.innerText = `🕒 ${String(itemDate).trim()}`;
-      dateEl.title = 'Время создания на Avito: ' + itemDate;
+      const dateInfo = formatAvitoCardDateDisplay({ item_date: cleanDate, seen_at: found ? found.seen_at : null });
+      dateEl.innerText = `🕒 ${dateInfo.text}`;
+      dateEl.title = dateInfo.title;
     }
   }
 
