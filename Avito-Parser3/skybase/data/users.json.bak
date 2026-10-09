@@ -1,0 +1,74 @@
+[
+  {
+    "username": "skynet83",
+    "password": "b59cfe6acba655d58ff67cce923d5340195ff3723ddc0fcb4a40ee1d095ff2d5",
+    "name": "skynet83",
+    "role": "admin",
+    "last_ip": "192.168.1.213",
+    "last_seen": "2026-09-30 20:43:51",
+    "target_interval": "30",
+    "active_interval": "1",
+    "permissions": {
+      "avito": true,
+      "avito_bot": true,
+      "avito_duration": "30_days",
+      "avito_expires_at": "2026-10-03 23:59:00",
+      "target_interval": "30",
+      "unlimited": false,
+      "is_expired": false,
+      "hwid_mac": "7D21",
+      "hwid_request_id": "EBMOB-7D21-C3F9-23C2-AFC1-6F53",
+      "hwid_token": "73cfe66df692fe3f0ed43b63471c445a3f1fa3664074842a6f74561d94a8403d",
+      "active_key": "EB30-0610-7FBD-5EB9-5E6A",
+      "tg_bot": true,
+      "monitoring": true,
+      "max_searches": 999
+    },
+    "last_mac": "4C:EB:BD:02:1A:EB",
+    "plain_password": "LttdBdfy83@",
+    "sessions": {
+      "desktop": {
+        "token": "34593b44d8034b28a140b5c137de97a9",
+        "last_ip": "192.168.1.213",
+        "last_seen": "2026-09-30 20:43:51",
+        "device_type": "desktop"
+      }
+    },
+    "mode": "hybrid",
+    "hybrid_mode": true,
+    "direct_mode": false,
+    "session_token": "34593b44d8034b28a140b5c137de97a9",
+    "avito_searches": [
+      {
+        "id": 21,
+        "name": "RX570 (500-2500)",
+        "url": "https://www.avito.ru/all/tovary_dlya_kompyutera/komplektuyuschie/videokarty-ASgBAgICAkTGB~pm7gmmZw?f=ASgBAgECAkTGB~pm7gmmZwFFxpoMFnsiZnJvbSI6NTAwLCJ0byI6MjUwMH0&q=RX570&s=104&pmin=500&pmax=2500",
+        "created_at": "2026-09-30 10:55:48",
+        "is_active": 1,
+        "is_initialized": 1,
+        "last_polled_at": "2026-09-30 20:51:20"
+      },
+      {
+        "id": 23,
+        "name": "RX580 (500-2000)",
+        "url": "https://www.avito.ru/all/tovary_dlya_kompyutera/komplektuyuschie/videokarty-ASgBAgICAkTGB~pm7gmmZw?f=ASgBAgECAkTGB~pm7gmmZwFFxpoMFnsiZnJvbSI6NTAwLCJ0byI6MjAwMH0&q=RX580&s=104&pmin=500&pmax=2000",
+        "created_at": "2026-09-30 10:56:09",
+        "is_active": 1,
+        "is_initialized": 1,
+        "last_polled_at": "2026-09-30 20:51:15"
+      },
+      {
+        "id": 25,
+        "name": "RX590 (500-2500)",
+        "url": "https://www.avito.ru/all/tovary_dlya_kompyutera/komplektuyuschie/videokarty-ASgBAgICAkTGB~pm7gmmZw?f=ASgBAgECAkTGB~pm7gmmZwFFxpoMFnsiZnJvbSI6NTAwLCJ0byI6MjUwMH0&q=RX590&s=104&pmin=500&pmax=2500",
+        "created_at": "2026-09-30 10:56:36",
+        "is_active": 1,
+        "is_initialized": 1,
+        "last_polled_at": "2026-09-30 20:51:18"
+      }
+    ],
+    "telegram_chat_id": 5680198246,
+    "telegram_username": "skynet19081983",
+    "telegram_pending": null
+  }
+]

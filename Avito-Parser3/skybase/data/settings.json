@@ -1,0 +1,12 @@
+{
+  "max_devices": 5,
+  "max_passwords": 50,
+  "password_length": 12,
+  "temporary_password_duration_days": 30,
+  "require_activation": true,
+  "activation_check_interval_minutes": 60,
+  "allow_mobile": true,
+  "allow_pc": true,
+  "log_level": "info",
+  "auto_cleanup_expired": true
+}

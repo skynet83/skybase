@@ -1,0 +1,82 @@
+[
+  {
+    "id": "msg_20261005141938970_2056",
+    "sender": "EBID-F56C-D83B-53B9-DF79-C072",
+    "sender_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "sender_name": "💻 ПК (EBID-F56C-...)",
+    "recipient": "admin",
+    "text": "🎁 Здравствуйте! Прошу выдать триал-ключ (3 дня)",
+    "created_at": "2026-10-05 14:19:38",
+    "is_read": false,
+    "telegram_handle": "@skynet19081983",
+    "admin_tg_notified": true,
+    "admin_tg_msg_id": 3273,
+    "admin_tg_chat_id": 5680198246
+  },
+  {
+    "id": "msg_1791199184607_4410",
+    "sender": "skynet83",
+    "sender_name": "Администратор (skynet83)",
+    "recipient": "EBID-F56C-D83B-53B9-DF79-C072",
+    "text": "EB30-062C-9FAF-CC73-C2E9",
+    "created_at": "2026-10-05 14:19:44",
+    "is_read": true,
+    "admin_tg_sent": true,
+    "recipient_username": "EBID-F56C-D83B-53B9-DF79-C072",
+    "recipient_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "hw_id": "EBID-F56C-D83B-53B9-DF79-C072"
+  },
+  {
+    "id": "msg_1791228158985_8810",
+    "sender": "skynet83",
+    "sender_name": "Администратор (skynet83)",
+    "recipient": "EBID-F56C-D83B-53B9-DF79-C072",
+    "text": "🎛 Панель управления",
+    "created_at": "2026-10-05 22:22:38",
+    "is_read": true,
+    "admin_tg_sent": true,
+    "recipient_username": "EBID-F56C-D83B-53B9-DF79-C072",
+    "recipient_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "hw_id": "EBID-F56C-D83B-53B9-DF79-C072"
+  },
+  {
+    "id": "msg_20261006083517570_5496",
+    "sender": "EBID-F56C-D83B-53B9-DF79-C072",
+    "sender_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "sender_name": "💻 ПК (EBID-F56C-...)",
+    "recipient": "admin",
+    "text": "fdfd",
+    "created_at": "2026-10-06 08:35:17",
+    "is_read": false,
+    "telegram_handle": null,
+    "admin_tg_notified": true,
+    "admin_tg_msg_id": 3328,
+    "admin_tg_chat_id": 5680198246
+  },
+  {
+    "id": "msg_1791264925012_7290",
+    "sender": "skynet83",
+    "sender_name": "Администратор (skynet83)",
+    "recipient": "EBID-F56C-D83B-53B9-DF79-C072",
+    "text": "sssss",
+    "created_at": "2026-10-06 08:35:25",
+    "is_read": true,
+    "admin_tg_sent": true,
+    "recipient_username": "EBID-F56C-D83B-53B9-DF79-C072",
+    "recipient_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "hw_id": "EBID-F56C-D83B-53B9-DF79-C072"
+  },
+  {
+    "id": "msg_1791265064533_4901",
+    "sender": "skynet83",
+    "sender_name": "Администратор (skynet83)",
+    "recipient": "EBID-F56C-D83B-53B9-DF79-C072",
+    "text": "⏱ Таймер",
+    "created_at": "2026-10-06 08:37:44",
+    "is_read": true,
+    "admin_tg_sent": true,
+    "recipient_username": "EBID-F56C-D83B-53B9-DF79-C072",
+    "recipient_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "hw_id": "EBID-F56C-D83B-53B9-DF79-C072"
+  }
+]

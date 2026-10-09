@@ -1,0 +1,18 @@
+{
+  "codes": [
+    {
+      "code": "AVITO-PRO-2026-XK9M",
+      "type": "pc",
+      "used": false,
+      "used_by": null,
+      "used_at": null
+    },
+    {
+      "code": "AVITO-MOB-2026-QW3R",
+      "type": "mobile",
+      "used": false,
+      "used_by": null,
+      "used_at": null
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+  body {
+    background: #0b1120;
+    color: #f1f5f9;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 680px;
+  }
+  .title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f59e0b;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  
+  /* Variant A: Slot-Cells */
+  .badge-slots {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: #090e17;
+    border: 1.5px solid #23354d;
+    padding: 5px 12px;
+    border-radius: 9px;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .slot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .slot-box {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fbbf24;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: 5px;
+    padding: 2px 6px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 8px rgba(251,191,36,0.3);
+  }
+  .slot-box.year {
+    padding: 2px 7px;
+  }
+  .slot-lbl {
+    font-size: 7.5px;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .sep {
+    color: #64748b;
+    font-weight: 900;
+    font-size: 13px;
+    margin-bottom: 11px;
+  }
+  .bullet {
+    color: #38bdf8;
+    font-size: 11px;
+    margin: 0 4px;
+    margin-bottom: 11px;
+  }
+
+  /* Variant B: Unified Digital LCD Display */
+  .badge-lcd {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #090e17;
+    border: 1.5px solid #23354d;
+    padding: 6px 14px 5px 14px;
+    border-radius: 9px;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .lcd-digits {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fbbf24;
+    letter-spacing: 1.2px;
+    text-shadow: 0 0 10px rgba(251,191,36,0.35);
+    display: flex;
+    align-items: center;
+  }
+  .lcd-digits .d-sep {
+    color: #64748b;
+    margin: 0 1px;
+    font-weight: 900;
+    text-shadow: none;
+  }
+  .lcd-digits .d-bullet {
+    color: #38bdf8;
+    margin: 0 6px;
+    font-size: 11px;
+    text-shadow: none;
+  }
+  .lcd-sub {
+    font-size: 8px;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* Variant C: LCD with soft glow segment cells */
+  .badge-segment {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #090e17;
+    border: 1.5px solid #23354d;
+    padding: 5px 12px 4px 12px;
+    border-radius: 9px;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .seg-row {
+    display: flex;
+    align-items: center;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #fbbf24;
+  }
+  .seg-cell {
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.22);
+    border-radius: 4px;
+    padding: 1px 5px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(251,191,36,0.3);
+  }
+  .seg-cell.y {
+    padding: 1px 6px;
+  }
+  .seg-sep {
+    color: #64748b;
+    margin: 0 2px;
+    font-weight: 900;
+  }
+  .seg-bullet {
+    color: #38bdf8;
+    margin: 0 5px;
+    font-size: 11px;
+  }
+  .seg-sub {
+    font-size: 8px;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Card 1 -->
+  <div>
+    <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;">ВАРИАНТ 1: Индивидуальные ячейки со сносками ДД / ММ / ГГГГ / ЧЧ / ММ / СС</div>
+    <div class="card">
+      <div>
+        <div class="title">🔐 Активация тарифного плана</div>
+        <div class="subtitle">Чат с администратором и онлайн-активация ключей</div>
+      </div>
+      <div class="badge-slots" title="Требуется активация ключа (Формат: ДД.ММ.ГГГГ ЧЧ:ММ:СС)">
+        <div class="slot-col"><span class="slot-box">--</span><span class="slot-lbl">ДД</span></div>
+        <span class="sep">.</span>
+        <div class="slot-col"><span class="slot-box">--</span><span class="slot-lbl">ММ</span></div>
+        <span class="sep">.</span>
+        <div class="slot-col"><span class="slot-box year">----</span><span class="slot-lbl">ГГГГ</span></div>
+        <span class="bullet">•</span>
+        <div class="slot-col"><span class="slot-box">--</span><span class="slot-lbl">ЧЧ</span></div>
+        <span class="sep">:</span>
+        <div class="slot-col"><span class="slot-box">--</span><span class="slot-lbl">ММ</span></div>
+        <span class="sep">:</span>
+        <div class="slot-col"><span class="slot-box">--</span><span class="slot-lbl">СС</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div>
+    <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;">ВАРИАНТ 2: Светодиодное табло (LCD) с моноширинной строкой и подписью полей</div>
+    <div class="card">
+      <div>
+        <div class="title">🔐 Активация тарифного плана</div>
+        <div class="subtitle">Чат с администратором и онлайн-активация ключей</div>
+      </div>
+      <div class="badge-lcd" title="Требуется активация ключа (Формат: ДД.ММ.ГГГГ ЧЧ:ММ:СС)">
+        <div class="lcd-digits">
+          --<span class="d-sep">.</span>--<span class="d-sep">.</span>----
+          <span class="d-bullet">•</span>
+          --<span class="d-sep">:</span>--<span class="d-sep">:</span>--
+        </div>
+        <div class="lcd-sub">
+          ДД . ММ . ГГГГ &nbsp;•&nbsp; ЧЧ : ММ : СС
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div>
+    <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;">ВАРИАНТ 3: Комбинированный — мягкие ячейки с общей подписью формата</div>
+    <div class="card">
+      <div>
+        <div class="title">🔐 Активация тарифного плана</div>
+        <div class="subtitle">Чат с администратором и онлайн-активация ключей</div>
+      </div>
+      <div class="badge-segment" title="Требуется активация ключа (Формат: ДД.ММ.ГГГГ ЧЧ:ММ:СС)">
+        <div class="seg-row">
+          <span class="seg-cell">--</span><span class="seg-sep">.</span><span class="seg-cell">--</span><span class="seg-sep">.</span><span class="seg-cell y">----</span>
+          <span class="seg-bullet">•</span>
+          <span class="seg-cell">--</span><span class="seg-sep">:</span><span class="seg-cell">--</span><span class="seg-sep">:</span><span class="seg-cell">--</span>
+        </div>
+        <div class="seg-sub">
+          ДД . ММ . ГГГГ &nbsp;•&nbsp; ЧЧ : ММ : СС
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

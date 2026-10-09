@@ -1,0 +1,72 @@
+[
+  {
+    "username": "EBID-F56C-D83B-53B9-DF79-C072",
+    "request_id": "EBID-F56C-D83B-53B9-DF79-C072",
+    "name": "ПК-EBID-F56C-D83B",
+    "role": "admin",
+    "last_ip": "10.8.22.227",
+    "last_seen": "2026-10-09 15:38:03",
+    "target_interval": "1",
+    "active_interval": "1",
+    "permissions": {
+      "avito": true,
+      "avito_bot": true,
+      "avito_duration": "3_days",
+      "avito_expires_at": "2026-10-11 09:09:00",
+      "target_interval": "1",
+      "unlimited": false,
+      "is_expired": false,
+      "hwid_mac": "",
+      "hwid_request_id": "EBID-F56C-D83B-53B9-DF79-C072",
+      "active_key": "EB30-063A-0510-CCC8-E90A",
+      "tg_bot": false,
+      "monitoring": true,
+      "max_searches": 10
+    },
+    "avito_searches": [],
+    "telegram_chat_id": null,
+    "telegram_username": null,
+    "telegram_pending": null,
+    "proxies": [],
+    "sessions": {
+      "desktop": {
+        "token": "34593b44d8034b28a140b5c137de97a9",
+        "last_ip": "10.8.22.227",
+        "last_seen": "2026-10-09 15:38:03",
+        "device_type": "desktop"
+      }
+    },
+    "session_token": "34593b44d8034b28a140b5c137de97a9",
+    "last_mac": "E0:B9:4D:B3:49:F1"
+  },
+  {
+    "username": "EBID-49F1-LAN-E0B9",
+    "request_id": "EBID-49F1-LAN-E0B9",
+    "name": "ПК-EBID-49F1-LAN-",
+    "role": "user",
+    "last_ip": "10.8.22.227",
+    "last_seen": "2026-10-09 14:07:30",
+    "target_interval": "1",
+    "active_interval": "1",
+    "permissions": {
+      "avito": false,
+      "avito_bot": false,
+      "avito_duration": "none",
+      "avito_expires_at": null,
+      "target_interval": "1",
+      "unlimited": false,
+      "is_expired": true,
+      "hwid_mac": "E0:B9:4D:B3:49:F1",
+      "hwid_request_id": "EBID-49F1-LAN-E0B9",
+      "active_key": null,
+      "tg_bot": false,
+      "monitoring": false,
+      "max_searches": 10
+    },
+    "avito_searches": [],
+    "telegram_chat_id": null,
+    "telegram_username": null,
+    "telegram_pending": null,
+    "proxies": []
+  }
+]

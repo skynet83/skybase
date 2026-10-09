@@ -1,0 +1,11 @@
+{
+  "running": false,
+  "active": false,
+  "connecting": false,
+  "abort_requested": true,
+  "pid": null,
+  "url": "https://63d385c625553e.lhr.life",
+  "provider": "Localhost.run (SSH)",
+  "error": null,
+  "updated_at": "2026-09-21 20:37:44"
+}

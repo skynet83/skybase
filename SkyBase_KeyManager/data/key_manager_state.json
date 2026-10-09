@@ -1,0 +1,11 @@
+{
+  "total_activations": 0,
+  "total_passwords_issued": 0,
+  "last_activity": null,
+  "server_start_time": null,
+  "uptime_days": 0,
+  "version": "2.1.0",
+  "auto_backup": true,
+  "backup_interval_hours": 24,
+  "last_backup": null
+}

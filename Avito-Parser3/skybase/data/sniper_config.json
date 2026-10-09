@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "auto_message_enabled": false,
+  "auto_message_text": "Здравствуйте! Готов забрать сегодня с доставкой, ещё актуально?",
+  "auto_buy_enabled": false,
+  "payment_method": "card",
+  "headless": false,
+  "safe_mode": true,
+  "cheapest_delivery": false,
+  "preferred_delivery": "cheapest",
+  "search_depth": 0,
+  "max_price": 0,
+  "max_price_includes_delivery": false,
+  "min_seller_rating": 0,
+  "auto_buy_mode": "all",
+  "auto_buy_searches": [
+    {
+      "id": "10682",
+      "name": "rx580 (500-2000)",
+      "url": "https://www.avito.ru/all/tovary_dlya_kompyutera/komplektuyuschie/videokarty-ASgBAgICAkTGB~pm7gmmZw?f=ASgBAgECAkTGB~pm7gmmZwFFxpoMFnsiZnJvbSI6NTAwLCJ0byI6MjAwMH0&q=rx580&s=104&pmin=500&pmax=2000"
+    }
+  ]
+}

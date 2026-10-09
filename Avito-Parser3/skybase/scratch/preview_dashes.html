@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+  body { background: #0f172a; padding: 40px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; flex-direction: column; gap: 30px; align-items: flex-start; }
+  .label { color: #94a3b8; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  
+  /* Variant 1: Segmented Digit Slots with Underline */
+  .v1 {
+    display: inline-flex; align-items: center; gap: 2px;
+    background: #1e293b; border: 1px solid #334155; padding: 6px 14px; border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.25);
+    font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; font-weight: 700;
+  }
+  .v1 .slot {
+    background: #0f172a; color: #fbbf24; padding: 2px 6px; border-radius: 4px;
+    border-bottom: 2px solid #f59e0b; letter-spacing: 1px;
+  }
+  .v1 .sep { color: #64748b; font-weight: bold; margin: 0 1px; }
+  .v1 .time-sep { margin: 0 6px; color: #475569; font-size: 16px; }
+
+  /* Variant 2: Digital Display with format hints underneath */
+  .v2 {
+    display: inline-flex; flex-direction: column; align-items: center;
+    background: #162032; border: 1px solid #2d3e56; padding: 5px 16px 4px 16px; border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .v2 .digits {
+    font-family: 'Consolas', monospace; font-size: 15px; font-weight: 800; letter-spacing: 1.5px;
+    color: #fbbf24; display: flex; align-items: center;
+  }
+  .v2 .digits .sep { color: #475569; font-weight: 600; margin: 0 1px; }
+  .v2 .hints {
+    font-size: 9px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px;
+  }
+
+  /* Variant 3: Sleek Pill with Icon and Micro-boxes */
+  .v3 {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #1a2436; border: 1px solid #334155; padding: 5px 12px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .v3 .icon { font-size: 14px; filter: drop-shadow(0 0 4px rgba(251,191,36,0.3)); }
+  .v3 .box {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-family: 'Consolas', monospace; font-size: 14px; font-weight: 800;
+  }
+  .v3 .slot {
+    color: #fbbf24; background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.25);
+    padding: 2px 5px; border-radius: 4px; letter-spacing: 1px;
+  }
+  .v3 .sep { color: #64748b; }
+
+  /* Variant 4: Format Mask DD.MM.YYYY HH:MM:SS with amber glow */
+  .v4 {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #172033; border: 1px solid #2e3e55; padding: 6px 14px; border-radius: 8px;
+  }
+  .v4 .mask {
+    font-family: 'Consolas', monospace; font-size: 13.5px; font-weight: 800; color: #fbbf24;
+    letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(251,191,36,0.25);
+  }
+  .v4 .mask .sep { color: #475569; text-shadow: none; font-weight: 600; }
+  .v4 .tag {
+    font-size: 9px; font-weight: 800; background: rgba(251,191,36,0.15); color: #f59e0b;
+    border: 1px solid rgba(251,191,36,0.3); padding: 1px 6px; border-radius: 4px; letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+  <div>
+    <div class='label'>Вариант 1: Сегментные цифровые слоты (микро-ячейки с подсветкой)</div>
+    <div class='v1'>
+      <span class='slot'>--</span><span class='sep'>.</span>
+      <span class='slot'>--</span><span class='sep'>.</span>
+      <span class='slot'>----</span>
+      <span class='time-sep'>•</span>
+      <span class='slot'>--</span><span class='sep'>:</span>
+      <span class='slot'>--</span><span class='sep'>:</span>
+      <span class='slot'>--</span>
+    </div>
+  </div>
+
+  <div>
+    <div class='label'>Вариант 2: Цифровое табло с подстрочной подсказкой формата (ДД.ММ.ГГГГ ЧЧ:ММ:СС)</div>
+    <div class='v2'>
+      <div class='digits'>
+        --<span class='sep'>.</span>--<span class='sep'>.</span>---- &nbsp; --<span class='sep'>:</span>--<span class='sep'>:</span>--
+      </div>
+      <div class='hints'>
+        ДД . ММ . ГГГГ &nbsp; ЧЧ : ММ : СС
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class='label'>Вариант 3: Капсульные цифровые слоты с иконкой календаря и янтарной рамкой</div>
+    <div class='v3'>
+      <span class='icon'>📅</span>
+      <div class='box'>
+        <span class='slot'>--</span><span class='sep'>.</span><span class='slot'>--</span><span class='sep'>.</span><span class='slot'>----</span>
+        <span style='color:#475569; margin: 0 4px;'>•</span>
+        <span class='slot'>--</span><span class='sep'>:</span><span class='slot'>--</span><span class='sep'>:</span><span class='slot'>--</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class='label'>Вариант 4: Неоновая моноширинная маска даты с бейджем «Формат ДД.ММ.ГГГГ»</div>
+    <div class='v4'>
+      <span class='tag'>ДАТА / ВРЕМЯ</span>
+      <div class='mask'>
+        --<span class='sep'>.</span>--<span class='sep'>.</span>----<span class='sep'> • </span>--<span class='sep'>:</span>--<span class='sep'>:</span>--
+      </div>
+    </div>
+  </div>
+</body>
+</html>

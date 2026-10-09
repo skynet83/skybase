@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" type="image/x-icon" href="/img/skybase.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/skybase_badge_32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="/img/skybase_icon_256.png">
+  <link rel="shortcut icon" href="/img/skybase.ico">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <title>AvitoHunter - Мониторинг объявлений Avito & Telegram</title>
+  <meta name="description" content="Автоматический мониторинг новых объявлений Avito с мгновенными уведомлениями в Telegram.">
+  <meta name="color-scheme" content="dark">
+  <link rel="stylesheet" href="css/style.css?v=80.0">
+  <script>
+    (function() {
+      var saved = localStorage.getItem('site-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+  <style>
+    .btn-admin-nav {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-weight: 700;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-admin-nav:hover {
+      background: var(--accent);
+      color: #0f172a;
+    }
+    .btn-auth-nav {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-auth-nav:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .cat-btn-avito-monitor {
+      border-color: rgba(59, 130, 246, 0.5) !important;
+      color: #60a5fa !important;
+      font-weight: 700 !important;
+      background: rgba(59, 130, 246, 0.1) !important;
+    }
+    .cat-btn-avito-monitor.active {
+      background: #3b82f6 !important;
+      color: #ffffff !important;
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.4);
+    }
+    .btn-avito-nav {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      font-weight: 700;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-avito-nav:hover {
+      background: #3b82f6;
+      color: #ffffff;
+    }
+    .btn-share-tg {
+      background: rgba(14, 165, 233, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(14, 165, 233, 0.4);
+      font-weight: 700;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-share-tg:hover {
+      background: #0ea5e9;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+    }
+    .btn-pwa-install {
+      background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+      color: #ffffff;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      font-weight: 700;
+      padding: 0.22rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      box-shadow: 0 2px 5px rgba(14, 165, 233, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-pwa-install:hover {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(14, 165, 233, 0.45);
+    }
+
+    .header-count-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+    .header-count-row {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .header-brand-column {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.22rem;
+      flex-shrink: 0;
+    }
+    .header-brand-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-shrink: 0;
+      height: 34px;
+    }
+    .badge-ip-info {
+      background: rgba(14, 165, 233, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(14, 165, 233, 0.35);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0 0.55rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      max-width: 100%;
+      height: 24px;
+      box-sizing: border-box;
+      gap: 0.25rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+    #btn-server-ip.badge-ip-info {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-top: 5px !important;
+      position: relative !important;
+      left: 1px !important;
+      cursor: default !important;
+      pointer-events: none !important;
+      user-select: none !important;
+    }
+    #btn-server-ip.badge-ip-info:hover,
+    #btn-server-ip.badge-ip-info:active,
+    #btn-server-ip.badge-ip-info:focus {
+      background: rgba(14, 165, 233, 0.12) !important;
+      border-color: rgba(14, 165, 233, 0.35) !important;
+      color: #38bdf8 !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    .user-card-item .badge-ip-info {
+      width: auto !important;
+      max-width: 135px !important;
+      flex-shrink: 0 !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+    .badge-ip-info:hover {
+      background: rgba(14, 165, 233, 0.25);
+      border-color: #38bdf8;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(14, 165, 233, 0.35);
+    }
+    .badge-ip-info:active {
+      transform: translateY(0);
+    }
+    .badge-wan-btn {
+      cursor: pointer;
+      user-select: none;
+    }
+    .badge-wan-btn.wan-off {
+      background: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .badge-wan-btn.wan-off:hover {
+      background: rgba(148, 163, 184, 0.2);
+      border-color: #cbd5e1;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(148, 163, 184, 0.25);
+    }
+    .badge-wan-btn.wan-on {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.5);
+    }
+    .badge-wan-btn.wan-on:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: #34d399;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+    .badge-wan-btn.wan-loading {
+      background: rgba(234, 179, 8, 0.15);
+      color: #eab308;
+      border: 1px solid rgba(234, 179, 8, 0.5);
+      cursor: pointer;
+    }
+    .badge-wan-btn.wan-loading:hover {
+      background: rgba(239, 68, 68, 0.22);
+      color: #f87171;
+      border-color: #ef4444;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+    }
+    .wan-gear-btn {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      padding: 0 2px;
+      font-size: 13px;
+      line-height: 1;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+      vertical-align: middle;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .wan-gear-btn:hover {
+      opacity: 1;
+      transform: rotate(35deg) scale(1.22);
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .header-brand-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .header-info-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+      margin-left: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .btn-admin-nav,
+      .btn-auth-nav,
+      .btn-avito-nav,
+      .btn-share-tg {
+        padding: 0.25rem 0.48rem !important;
+        font-size: 0.72rem !important;
+        min-height: 26px !important;
+        border-radius: 6px !important;
+        gap: 0.28rem !important;
+      }
+      .btn-pwa-install {
+        padding: 0.2rem 0.45rem !important;
+        font-size: 0.68rem !important;
+        min-height: 24px !important;
+      }
+      .badge-ip-info {
+        font-size: 0.65rem !important;
+        height: 22px !important;
+        padding: 0 0.35rem !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn-admin-nav,
+      .btn-auth-nav,
+      .btn-avito-nav,
+      .btn-share-tg {
+        padding: 0.2rem 0.38rem !important;
+        font-size: 0.68rem !important;
+        min-height: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header (перемещен в блок Авито поиск) -->
+  <header style="display:none;"></header>
+
+  <!-- Banner -->
+  <section class="banner" id="page-banner" style="display:none;">
+    <div class="banner-content">
+      <h1 id="banner-title">Avito Bot & Мониторинг</h1>
+      <p id="banner-desc">Автоматический парсер и мониторинг новых объявлений Avito с мгновенными уведомлениями в Telegram.</p>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <div class="controls-bar" style="display:none;">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" class="search-input" placeholder="Поиск по объявлениям..." autocomplete="off">
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="categories-nav" id="categories-nav" style="display:none;"></div>
+
+  <!-- Grid -->
+  <main>
+    <div class="products-grid" id="listings-grid"></div>
+  </main>
+
+  <!-- Экран блокировки и дисклеймера при первом запуске / неактивированной лицензии -->
+  <div class="license-expired-overlay" id="license-expired-overlay" style="display:none;">
+    <div class="license-expired-card" id="activation-disclaimer-card">
+      <div class="license-expired-icon-wrap" style="margin:0 auto 0.75rem auto;">
+        <span class="license-expired-icon" id="license-expired-icon">🔐</span>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.45);padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.76rem;font-weight:800;color:#f59e0b;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:0.55rem;">
+        <span>⚡ Открытое Бета-Тестирование</span>
+      </div>
+      <h2 class="license-expired-title" id="license-expired-title" style="margin-bottom:0.35rem;font-size:1.45rem;">Активация AvitoHunter</h2>
+      <p class="license-expired-desc" id="license-expired-desc" style="margin-bottom:0.85rem;font-size:0.88rem;line-height:1.45;color:#94a3b8;">
+        Для первого запуска программы и начала работы ознакомьтесь с условиями бета-версии и подтвердите согласие.
+      </p>
+
+      <!-- Блок нотации и дисклеймера (отказ от ответственности) -->
+      <div class="activation-disclaimer-box" id="activation-disclaimer-box">
+        <div class="disclaimer-header">
+          <span class="disclaimer-badge">⚠️ Пользовательское соглашение и отказ от ответственности</span>
+          <span class="disclaimer-ver">v1.17 Beta</span>
+        </div>
+        <div class="disclaimer-content" id="disclaimer-content-scroll" onscroll="window.onDisclaimerScroll(this)">
+          <div class="disclaimer-item">
+            <span class="disclaimer-bullet">1.</span>
+            <div><strong>Стадия открытого бета-тестирования:</strong> Программное обеспечение <em>AvitoHunter</em> находится в стадии непрерывной разработки и тестирования. Модули быстрого выкупа, мониторинга и сбора данных оптимизируются для максимальной эффективности, однако в период обновлений функционал может дополняться.</div>
+          </div>
+          <div class="disclaimer-item">
+            <span class="disclaimer-bullet">2.</span>
+            <div><strong>Отказ от ответственности (AS IS):</strong> Программа предоставляется исключительно по принципу «как есть» (AS IS). Разработчик не несет ответственности за любые прямые или косвенные последствия использования сервиса, возможные ограничения аккаунтов на сторонних сайтах, технические сбои связи или любые финансовые риски. Вся ответственность возлагается на конечного пользователя.</div>
+          </div>
+          <div class="disclaimer-item">
+            <span class="disclaimer-bullet">3.</span>
+            <div><strong>Правила автоматизации и безопасность:</strong> Пользователь обязуется использовать функции авто-выкупа и авто-бронирования осознанно, контролируя заданные ценовые планки и лимиты. Все авторизационные данные и платежные настройки хранятся исключительно локально на вашем устройстве.</div>
+          </div>
+          <div class="disclaimer-item">
+            <span class="disclaimer-bullet">4.</span>
+            <div><strong>Поддержка, активация и обратная связь:</strong> По всем вопросам активации тарифов, предложениям по улучшению функционала и обратной связи обращайтесь напрямую к автору программы:</div>
+          </div>
+          <div class="disclaimer-contacts-row">
+            <a href="https://t.me/skynet19081983" target="_blank" rel="noopener" class="disclaimer-contact-link">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#24A1DE"/><path d="M5.394 12.015l3.962 1.48 1.536 4.704a.434.434 0 00.702.17l2.17-2.128 4.382 3.235c.483.356 1.159.102 1.266-.492L22.18 5.76c.113-.53-.423-.984-.943-.783L3.25 10.959c-.572.23-.554 1.052.067 1.252l2.077-.196zm4.12 1.047l8.28-5.187c.18-.113.37.14.21.284l-6.868 6.208-.28 3.525-1.342-4.83z" fill="#fff"/></svg>
+              <span>Telegram: <strong>@skynet19081983</strong></span>
+            </a>
+            <a href="mailto:skynet-system83@mail.ru" class="disclaimer-contact-link">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#38bdf8" stroke-width="2" fill="rgba(56,189,248,0.15)"/><path d="M22 7l-10 7L2 7" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Почта: <strong>skynet-system83@mail.ru</strong></span>
+            </a>
+          </div>
+        </div>
+        <div id="disclaimer-scroll-hint" class="disclaimer-scroll-hint">
+          <span>↓</span> <span>Прокрутите текст соглашения вниз для ознакомления</span>
+        </div>
+      </div>
+
+      <!-- Чекбокс согласия (заблокирован до прокрутки вниз) -->
+      <label class="disclaimer-checkbox-wrap is-locked" id="disclaimer-checkbox-label" title="Сначала прокрутите текст соглашения до самого низа">
+        <input type="checkbox" id="chk-activation-disclaimer-agree" onchange="window.onDisclaimerAgreementChange(this)" disabled>
+        <span class="disclaimer-checkbox-text">
+          Я прочитал(а) соглашение, предупрежден(а) о бета-версии и полностью принимаю условия использования и отказ от ответственности
+        </span>
+      </label>
+      <div id="disclaimer-unlock-hint" style="font-size:0.77rem;color:#f59e0b;margin-top:0.35rem;text-align:left;display:flex;align-items:center;gap:0.35rem;font-weight:600;padding-left:0.25rem;">
+        <span>📜</span> <span>Опустите прокрутку соглашения вниз, чтобы поставить галочку</span>
+      </div>
+
+      <div class="license-expired-actions" style="margin-top:1.1rem;">
+        <button type="button" class="cat-btn btn-expired-activate-main" id="btn-expired-activate-main" onclick="window.onDisclaimerActivateClick()" disabled style="position:relative;" title="Для активации сначала подтвердите согласие с соглашением выше">
+          🔑 Активация
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Details, Auth, Edit & Comments -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content" style="max-width:760px;">
+      <button class="btn-close-cart" id="modal-close" tabindex="-1" title="Закрыть окно" aria-label="Закрыть окно">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Modal Donate Author -->
+  <div class="donate-modal-overlay" id="donate-modal-overlay" style="display:none;"></div>
+
+  <footer>
+    <p style="margin:0 0 0.4rem 0;">AvitoHunter &copy; 2026. Мониторинг объявлений и Telegram-уведомления.</p>
+    <p style="margin:0;display:inline-flex;align-items:center;justify-content:center;gap:0.85rem;flex-wrap:wrap;">
+      <span style="color:var(--text-secondary);">Связь с администратором:</span>
+      <span style="white-space:nowrap;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#24A1DE"/><path d="M5.394 12.015l3.962 1.48 1.536 4.704a.434.434 0 00.702.17l2.17-2.128 4.382 3.235c.483.356 1.159.102 1.266-.492L22.18 5.76c.113-.53-.423-.984-.943-.783L3.25 10.959c-.572.23-.554 1.052.067 1.252l2.077-.196zm4.12 1.047l8.28-5.187c.18-.113.37.14.21.284l-6.868 6.208-.28 3.525-1.342-4.83z" fill="#fff"/></svg>
+        <span style="color:#38bdf8;font-weight:700;">Telegram:</span>
+        <a href="https://t.me/skynet19081983" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:none;font-weight:700;">@skynet19081983</a>
+      </span>
+      <span style="color:rgba(255,255,255,0.25);">|</span>
+      <span style="white-space:nowrap;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="2" stroke="#38bdf8" stroke-width="2" fill="rgba(56,189,248,0.15)"/>
+          <path d="M22 7l-10 7L2 7" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span style="color:#38bdf8;font-weight:700;">Почта:</span>
+        <a href="mailto:skynet-system83@mail.ru" style="color:#ffffff;text-decoration:none;font-weight:700;">skynet-system83@mail.ru</a>
+      </span>
+    </p>
+  </footer>
+
+  <script src="js/app.js?v=99.0"></script>
+  <script>
+    if (typeof window.retryFetchGalleryDescription !== 'function') {
+      window.retryFetchGalleryDescription = async function(itemId, rawUrlEncoded) {
+        const cleanId = String(itemId || '').trim();
+        if (!cleanId) return;
+        let rawUrl = '';
+        try { rawUrl = rawUrlEncoded ? decodeURIComponent(rawUrlEncoded) : ''; } catch (_) { rawUrl = String(rawUrlEncoded || ''); }
+        if (!rawUrl) rawUrl = 'https://www.avito.ru/' + cleanId;
+        const safeId = String(cleanId).replace(/'/g, "\\'");
+        const safeUrl = String(rawUrl).replace(/"/g, '&quot;');
+        const descEl = document.getElementById('gallery-modal-desc-text');
+        if (descEl) {
+          descEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:1.2rem;color:#94a3b8;font-size:0.88rem;"><span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(56,189,248,0.25);border-top-color:#38bdf8;border-radius:50%;animation:spin 0.8s linear infinite;"></span><span>Повторная загрузка описания с Авито...</span></div>';
+        }
+        try {
+          const res = await fetch(`/api/avito/item/details?item_id=${encodeURIComponent(cleanId)}&url=${encodeURIComponent(rawUrl)}`);
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          if (data && data.success && data.item && data.item.description) {
+            if (descEl) descEl.textContent = data.item.description;
+            if (window._itemDetailsCache) {
+              const prev = window._itemDetailsCache.get(cleanId) || {};
+              window._itemDetailsCache.set(cleanId, { ...prev, description: data.item.description });
+            }
+            return;
+          }
+          throw new Error('Нет описания');
+        } catch (e) {
+          if (descEl) {
+            descEl.innerHTML = `<div style="padding:1.1rem;background:rgba(30,41,59,0.5);border:1px dashed rgba(239,68,68,0.3);border-radius:8px;text-align:center;"><div style="color:#94a3b8;margin-bottom:0.75rem;font-size:0.88rem;">Текстовое описание временно не загрузилось через прокси</div><div style="display:inline-flex;align-items:center;gap:0.5rem;justify-content:center;flex-wrap:wrap;"><button type="button" onclick="window.retryFetchGalleryDescription('${safeId}','${encodeURIComponent(rawUrl)}')" class="cat-btn" style="padding:0.45rem 1rem;font-size:0.84rem;background:linear-gradient(135deg,#0284c7,#2563eb);border:1px solid rgba(56,189,248,0.5);color:#fff;border-radius:6px;font-weight:700;cursor:pointer;">🔄 Повторить загрузку описания</button><a href="${safeUrl}" target="_blank" rel="noopener" class="cat-btn" style="padding:0.45rem 1rem;font-size:0.84rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.4);color:#38bdf8;text-decoration:none;border-radius:6px;font-weight:700;">🌐 Открыть описание на Авито ↗</a></div></div>`;
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>

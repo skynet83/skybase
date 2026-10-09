@@ -1,0 +1,30 @@
+{
+  "EB30-0610-7F80-D462-C5A0": {
+    "client_note": "ПК [DEV-1AEC-084C] Первичная выдача (пробный период 3 дня)",
+    "dispensed_at": "2026-09-30 01:31:15",
+    "hash": "8d80db77f2cf6d70d14f004092fabceaf9384174abb2159539eb84eabd9b351b",
+    "type": "hardware_bound",
+    "tier": "30_days",
+    "mac": "**:**:**:**:1A:EC",
+    "request_id": "EBID-1AEC-084C-7AE5-B16D-FABF",
+    "device_id": "DEV-1AEC-084C",
+    "password_index": 1,
+    "valid_until": "2026-10-03 23:59:00",
+    "activated_by": null,
+    "activated_at": null,
+    "activated": false,
+    "status": "pending",
+    "is_trial": true
+  },
+  "EB30-0610-7FBD-5EB9-5E6A": {
+    "client_note": "Активирован на телефоне (ID: EBMOB-7D21-C3F9-23C2-AFC1-6F53)",
+    "dispensed_at": "2026-09-30 01:32:49",
+    "hash": "e544b769267fbbd307792b78e4cb4b8baefd6c20eff5e20fe72df6d7f62d0030",
+    "type": "hardware_bound",
+    "tier": "30_days",
+    "mac": "7D21",
+    "request_id": "EBMOB-7D21-C3F9-23C2-AFC1-6F53",
+    "device_type": "phone",
+    "activated_by": "skynet83"
+  }
+}

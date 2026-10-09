@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf8'?>
+<nuitka-compilation-report nuitka_version="4.2.2" nuitka_commercial_version="not installed" mode="module" completion="error exit message (1)" exit_message="Failed unexpectedly in Scons C backend compilation.">
+  <module name="hello_test" kind="CompiledPythonModule" usage="root_module" reason="Root module" source_path="${cwd}\hello_test.py">
+    <optimization-time pass="1" time="0.0000" micro_passes="3" />
+    <optimization-time pass="2" time="0.0000" micro_passes="1" />
+    <code-generation-time time="0.0312" />
+    <module_usages>
+      <module_usage name="sys" finding="absolute" line="2" />
+      <module_usage name="os" finding="excluded" line="3" exclusion_reason="Not following into stdlib unless standalone or requested to follow into stdlib." />
+    </module_usages>
+  </module>
+  <performance>
+    <memory_usage name="after_launch" value="46944256" />
+    <memory_usage name="before_c_code_generation" value="60669952" />
+    <memory_usage name="before_running_scons" value="62033920" />
+  </performance>
+  <data_composer blob_size="1323" total="122">
+    <module_data filename="__bytecode.const" blob_name=".bytecode" blob_size="3" input_size="0" />
+    <module_data filename="__constants.const" blob_name="" blob_size="902" input_size="2243" />
+    <module_data filename="module.hello_test.const" blob_name="hello_test" blob_size="384" input_size="1185" />
+  </data_composer>
+  <performance-totals>
+    <optimization-time pass="1" time="0.0000" module_count="1" />
+    <optimization-time pass="2" time="0.0000" module_count="1" />
+    <optimization-time pass="all" time="0.0000" module_count="1" />
+    <code-generation-time time="0.0312" module_count="1" />
+  </performance-totals>
+  <python_binary filename="${cwd}\test_build\hello_test.cp311-win_amd64.pyd" />
+  <command_line>
+    <option value="--module" />
+    <option value="--assume-yes-for-downloads" />
+    <option value="--output-dir=d:\ins\skybase\skybotparser\test_build" />
+    <option value="d:\ins\skybase\skybotparser\hello_test.py" />
+  </command_line>
+  <plugins>
+    <plugin name="anti-bloat" user_enabled="no" />
+    <plugin name="gi" user_enabled="no" />
+    <plugin name="implicit-imports" user_enabled="no" />
+    <plugin name="options-nanny" user_enabled="no" />
+    <plugin name="pkg-resources" user_enabled="no" />
+    <plugin name="transformers" user_enabled="no" />
+  </plugins>
+  <distributions />
+  <python python_exe="${sys.prefix}\python.exe" python_flavor="CPython Official" python_version="3.11.9" os_name="Windows" os_release="11" arch_name="x86_64" filesystem_encoding="utf-8">
+    <search_path>
+      <path value="${cwd}" />
+      <path value="${cwd}" />
+      <path value="${sys.prefix}\DLLs" />
+      <path value="${sys.prefix}\Lib" />
+      <path value="${sys.prefix}" />
+      <path value="${sys.prefix}\Lib\site-packages" />
+    </search_path>
+  </python>
+  <output run_filename="${cwd}\test_build\hello_test.cp311-win_amd64.pyd" />
+</nuitka-compilation-report>

@@ -1,0 +1,78 @@
+{
+  "DEV-1AEC-084C": {
+    "device_id": "DEV-1AEC-084C",
+    "device_type": "pc",
+    "mac": "1AEC",
+    "mac_tail": "1AEC",
+    "hw_sig": "084C",
+    "request_id": "EBID-1AEC-084C-7AE5-B16D-FABF",
+    "client_name": "skynet83",
+    "notes": "ПК DEV-1AEC-084C (Первичная выдача (пробный период 3 дня))",
+    "first_registered_at": "2026-09-30 01:31:15",
+    "last_updated_at": "2026-09-30 01:31:42",
+    "active_key": "EB30-0610-7F80-D462-C5A0",
+    "active_tier": "30_days",
+    "active_tier_name": "3 дн. 22 ч. (до 03.10.2026 23:59)",
+    "active_valid_until": "2026-10-03 23:59:00",
+    "passwords": [
+      {
+        "index": 1,
+        "key": "EB30-0610-7F80-D462-C5A0",
+        "tier": "30_days",
+        "tier_name": "3 дн. 22 ч. (до 03.10.2026 23:59)",
+        "issued_at": "2026-09-30 01:31:15",
+        "valid_until": "2026-10-03 23:59:00",
+        "status": "active",
+        "reason": "Первичная выдача (пробный период 3 дня)",
+        "request_id": "EBID-1AEC-084C-7AE5-B16D-FABF",
+        "activated": true,
+        "activated_at": "2026-09-30 01:31:42",
+        "activated_by": "skynet83",
+        "is_trial": true,
+        "activated_on_site": true
+      }
+    ],
+    "trial_issued_at": "2026-09-30 01:31:15",
+    "trial_used": true,
+    "trial_activated_at": "2026-09-30 01:31:42",
+    "activated_on_site": true
+  },
+  "MOB-7D21-C3F9": {
+    "device_id": "MOB-7D21-C3F9",
+    "device_type": "phone",
+    "mac": "MOB-ID:7D21",
+    "mac_tail": "7D21",
+    "hw_sig": "C3F9",
+    "request_id": "EBMOB-7D21-C3F9-23C2-AFC1-6F53",
+    "client_name": "skynet83",
+    "notes": "Телефон MOB-7D21-C3F9 (Первичная выдача (пробный период 3 дня))",
+    "first_registered_at": "2026-09-30 01:32:34",
+    "last_updated_at": "2026-09-30 01:32:49",
+    "active_key": "EB30-0610-7FBD-5EB9-5E6A",
+    "active_tier": "30_days",
+    "active_tier_name": "3 дн. 22 ч. (до 03.10.2026 23:59)",
+    "active_valid_until": "2026-10-03 23:59:00",
+    "passwords": [
+      {
+        "index": 1,
+        "key": "EB30-0610-7FBD-5EB9-5E6A",
+        "tier": "30_days",
+        "tier_name": "3 дн. 22 ч. (до 03.10.2026 23:59)",
+        "issued_at": "2026-09-30 01:32:34",
+        "valid_until": "2026-10-03 23:59:00",
+        "status": "active",
+        "reason": "Первичная выдача (пробный период 3 дня)",
+        "request_id": "EBMOB-7D21-C3F9-23C2-AFC1-6F53",
+        "activated": true,
+        "activated_at": "2026-09-30 01:32:49",
+        "activated_by": "skynet83",
+        "is_trial": true,
+        "activated_on_site": true
+      }
+    ],
+    "trial_issued_at": "2026-09-30 01:32:34",
+    "trial_used": true,
+    "trial_activated_at": "2026-09-30 01:32:49",
+    "activated_on_site": true
+  }
+}

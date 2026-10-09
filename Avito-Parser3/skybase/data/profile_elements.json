@@ -1,0 +1,98 @@
+[
+  {
+    "tag": "H2",
+    "marker": null,
+    "className": "firewall-title",
+    "text": "Доступ ограничен: проблема с IP"
+  },
+  {
+    "tag": "DIV",
+    "marker": null,
+    "className": "",
+    "text": "Иногда такое случается — чтобы вернуться на сайт, поставьте галочку и нажмите «Продолжить».\n            \n            \n            \n            \n                function sethCaptchaResponse(response) {\n                    document.getElementById('h-captcha-response').value = response;\n                }"
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "Иногда такое случается — чтобы вернуться на сайт, поставьте галочку и нажмите «Продолжить»."
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "Иногда такое случается — чтобы вернуться на сайт, введите символы с картинки."
+  },
+  {
+    "tag": "DIV",
+    "marker": null,
+    "className": "",
+    "text": "Иногда такое случается, чтобы вернуться на сайт нажмите на кнопку Продолжить для решения капчи"
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "Иногда такое случается, чтобы вернуться на сайт нажмите на кнопку Продолжить для решения капчи"
+  },
+  {
+    "tag": "DIV",
+    "marker": null,
+    "className": "form-action",
+    "text": "Продолжить"
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text firewall-p-bold",
+    "text": "Что можно сделать, если проблема повторяется"
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "— Отключить VPN."
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "— Перезагрузить роутер."
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "— Запустить проверку антивирусом."
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "Не сработает — напишите поддержке. Обязательно укажите свой город, провайдера и IP."
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text firewall-p-bold",
+    "text": "Что не так с IP"
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "С него идёт очень много запросов — как если бы вы разом открывали десятки вкладок или слишком часто обновляли страницу."
+  },
+  {
+    "tag": "P",
+    "marker": null,
+    "className": "text",
+    "text": "Обычно такое бывает, когда одним IP пользуются несколько человек. Например, если ваш провайдер объединяет абонентов в подсети, вы открываете сайт с рабочего компьютера или пользуетесь VPN. Также причина может быть в расширениях браузера и вирусах."
+  },
+  {
+    "tag": "DIV",
+    "marker": null,
+    "className": "invisible-cube",
+    "text": "500.5999999977648"
+  }
+]

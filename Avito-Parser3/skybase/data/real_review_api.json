@@ -1,0 +1,112 @@
+{
+  "entries": [
+    {
+      "type": "score",
+      "value": {
+        "ratingAction": {
+          "description": "Рейтинг — это среднее арифметическое оценок пользователей.",
+          "link": {
+            "title": "Подробнее",
+            "url": "https://support.avito.ru/articles/1092"
+          },
+          "title": "Написать отзыв",
+          "uri": "/user/review?fid=2_QdZ2D2uSQ_pAWvdXO6qaHQ%3D%3D"
+        },
+        "ratingStat": [
+          {
+            "count": 0,
+            "score": 5,
+            "title": "0"
+          },
+          {
+            "count": 0,
+            "score": 4,
+            "title": "0"
+          },
+          {
+            "count": 0,
+            "score": 3,
+            "title": "0"
+          },
+          {
+            "count": 0,
+            "score": 2,
+            "title": "0"
+          },
+          {
+            "count": 1,
+            "score": 1,
+            "title": "1"
+          }
+        ],
+        "reviewCount": 1,
+        "score": 1,
+        "scoreFloat": 1,
+        "subtitle": "1 отзыв",
+        "title": "Ужасный продавец"
+      }
+    },
+    {
+      "type": "photoGalleryPlaceHolder",
+      "value": {
+        "show": true
+      }
+    },
+    {
+      "type": "rating",
+      "value": {
+        "answer": {
+          "answerId": 88339456,
+          "answerSenderProfile": {
+            "status": "hidden"
+          },
+          "answered": "17 января",
+          "avatar": {
+            "100x100": "https://00.img.avito.st/image/1/1.TyPPiLa19cqxKinJ3a0JWdco4cpxIynJsSrhyA.hLQa3dMZlDluHeo9idqcG8A5kNRRdcslCaoNbUhm_1M?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "1024x1024": "https://00.img.avito.st/image/1/1.TyPPiLay9cr5O2HY3a0JWdco4ch7I-M.gCE5o_aEAtEjjk2sxJg8A8po26iY829WssiY5b4fE4U?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "128x128": "https://00.img.avito.st/image/1/1.TyPPiLa19cr5KWHK3a0JWdco4cpxI2HK-SnhyA.XbWjrB9rMncv1PjdcwOKfRzLHdORM0ak56GUIPim9Nc?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "132x132": "https://00.img.avito.st/image/1/1.TyPPiLa19crxKWnK3a0JWdco4cpxI2nK8SnhyA.RSjaZdiCG1tEiN0dI248779CNK9rEv_sqg_Eav_l7wo?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "176x176": "https://00.img.avito.st/image/1/1.TyPPiLa19cqZKQHK3a0JWdco4cpxIwHKmSnhyA.LSascHi2sTnsnS6TzXDA97jm8FaNIVMwxFhnBQODX9U?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "192x192": "https://00.img.avito.st/image/1/1.TyPPiLa19cr5KGHL3a0JWdco4cpxI2HL-SjhyA.ip-4utoksGKSdatJ48gkjksLQyiC5OipErVYQPqrQBc?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "256x256": "https://00.img.avito.st/image/1/1.TyPPiLa19cr5L2HM3a0JWdco4cpxI2HM-S_hyA.ytIHbzgBXObMC757uBT522Vbrdge1n5Z-WxEs_nfwhA?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "25x25": "https://00.img.avito.st/image/1/1.TyPPiLax9cpLGUVOkbpPy3kp6cBLGeHI.i0eTTdsWelopjV1r8icUVnRZfvb4OyKJm4BorJlc1Ok?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "50x50": "https://00.img.avito.st/image/1/1.TyPPiLax9codT0VOkbpPy3kp6cAdT-HI.LBY5iKDFIENzZdpSLs2o__pCjPO8ClcDSqCgK-JXJzY?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "64x64": "https://00.img.avito.st/image/1/1.TyPPiLa19cr5KmHJ3a0JWdco4cpxI2HJ-SrhyA.g7l85fX4y8-1wR3iAFqodtaT3yt5P5Pk81UVzBmwxx4?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk=",
+            "96x96": "https://00.img.avito.st/image/1/1.TyPPiLa19cq5KiHJ3a0JWdco4cpxIyHJuSrhyA.bGAnuyE-Evz9yWSi1OGoeUd2p9tPoVSV4E2llkaiw3Q?cqp=2.EI1aZg-3nTjj2X2l0mbh9ealZRk="
+          },
+          "link": "https://www.avito.ru/user/0e77064c0e9c04b65fad79eb1d7ab69c/profile?src=ratings",
+          "text": "сделка не сорвалась, и мы ни о чем не договаривались , я просто снял компьютер с продажи из за своих нужд",
+          "title": "Тимур"
+        },
+        "avatar": {
+          "100x100": "https://50.img.avito.st/image/1/1.Uz_oGra16daWuDXVwkdBR9y6_dZWsTXVlrj91A.S7cPBCcKKXyoavV9MPR4MpEZtxnEynKr0fC9ji3WAjs",
+          "1024x1024": "https://50.img.avito.st/image/1/1.Uz_oGray6dbeqX3EwkdBR9y6_dRcsf8.OFfwsmHHQjzFZpA_non35wWwPzlTvi_dI5SIVMZCLms",
+          "128x128": "https://50.img.avito.st/image/1/1.Uz_oGra16dbeu33WwkdBR9y6_dZWsX3W3rv91A.Vkxqk8-VtFHFcAb71GqKRLJSHfdhQHPKnQGlT2Wi8Zg",
+          "132x132": "https://50.img.avito.st/image/1/1.Uz_oGra16dbWu3XWwkdBR9y6_dZWsXXW1rv91A.XrwTn6UawIfye4IfIwe0mxNJuW-p1FEtjOYs95Wo8tc",
+          "176x176": "https://50.img.avito.st/image/1/1.Uz_oGra16da-ux3WwkdBR9y6_dZWsR3Wvrv91A.NFoQVh4q5gcPNlN5efs7v88KN3DImn858M3OooXWMc0",
+          "192x192": "https://50.img.avito.st/image/1/1.Uz_oGra16dbeun3XwkdBR9y6_dZWsX3X3rr91A.SW-fbKZ7qtHv9_SSRxnBSRV7UmrYih2gUEXMvO1bHHc",
+          "256x256": "https://50.img.avito.st/image/1/1.Uz_oGra16dbevX3QwkdBR9y6_dZWsX3Q3r391A.f9U1cF4Q5oyXXg2gDpRHPxyds0HzKMQs5B3R_B1heHY",
+          "25x25": "https://50.img.avito.st/image/1/1.Uz_oGrax6dZsi2Eq4ip_11679dxsi_3U.1VbdCUNStbwqZgp1qC0JkqRu-pCMUspayCoa031hXsQ",
+          "50x50": "https://50.img.avito.st/image/1/1.Uz_oGrax6dY63WEq4ip_11679dw63f3U.xK5KDf8BgKK0C34jGG4wnQKpdeHMXCQ-yVOfsgwFAQw",
+          "64x64": "https://50.img.avito.st/image/1/1.Uz_oGra16dbeuH3VwkdBR9y6_dZWsX3V3rj91A.ubN1HRB9-iYKKlUPKhOvCF7pFBsuKXnRi6SOAfWW-8M",
+          "96x96": "https://50.img.avito.st/image/1/1.Uz_oGra16daeuD3VwkdBR9y6_dZWsT3Vnrj91A.dHWubxBiuvxlvUtJ-8vuSDSAIsgSmZBStRurO37K8VU"
+        },
+        "id": 351236624,
+        "itemTitle": "Компьютер",
+        "rated": "31 июля 2025",
+        "reviewSenderProfile": {
+          "status": "hidden"
+        },
+        "score": 1,
+        "stageTitle": "Сделка сорвалась",
+        "textSections": [
+          {
+            "text": "Договорились об одной цене а потом продавец поменял цену не рекомендую этого продавца"
+          }
+        ],
+        "title": "Семён",
+        "titleCaption": "Покупатель"
+      }
+    }
+  ]
+}

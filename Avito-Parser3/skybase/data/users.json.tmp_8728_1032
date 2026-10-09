@@ -1,0 +1,59 @@
+[
+  {
+    "username": "EBID-1AEC-084C-7AE5-B16D-FABF",
+    "request_id": "EBID-1AEC-084C-7AE5-B16D-FABF",
+    "name": "ПК-EBID-1AEC-084C",
+    "role": "admin",
+    "last_ip": "192.168.1.213",
+    "last_seen": "2026-10-07 02:04:52",
+    "target_interval": "1",
+    "active_interval": "1",
+    "permissions": {
+      "avito": true,
+      "avito_bot": true,
+      "avito_duration": "none",
+      "avito_expires_at": "2026-10-31 23:59:00",
+      "target_interval": "1",
+      "unlimited": false,
+      "is_expired": false,
+      "hwid_mac": "4C:EB:BD:02:1A:EB",
+      "hwid_request_id": "EBID-1AEC-084C-7AE5-B16D-FABF",
+      "active_key": "EB30-06AD-FF1F-B9A3-9E97",
+      "tg_bot": true,
+      "monitoring": true,
+      "max_searches": 10
+    },
+    "avito_searches": [
+      {
+        "id": 10691,
+        "name": "rx570 🚚 (500-2000)",
+        "url": "https://www.avito.ru/all/tovary_dlya_kompyutera/komplektuyuschie/videokarty-ASgBAgICAkTGB~pm7gmmZw?f=ASgBAgECAkTGB~pm7gmmZwFFxpoMFnsiZnJvbSI6NTAwLCJ0byI6MjAwMH0&q=rx570&s=104&pmin=500&pmax=2000&d=1",
+        "created_at": "2026-10-07 00:40:51",
+        "is_active": 1,
+        "is_initialized": 1,
+        "only_delivery": 1,
+        "is_pending": 0,
+        "autobuy": 0,
+        "autoreserve": 0,
+        "max_price": 0.0,
+        "price_with_delivery": 1,
+        "min_rating": 0.0,
+        "last_polled_at": "2026-10-07 02:04:39"
+      }
+    ],
+    "telegram_chat_id": null,
+    "telegram_username": null,
+    "telegram_pending": null,
+    "proxies": [],
+    "sessions": {
+      "desktop": {
+        "token": "434734adeba842d08c0fbd98e8879ec5",
+        "last_ip": "192.168.1.213",
+        "last_seen": "2026-10-07 02:04:52",
+        "device_type": "desktop"
+      }
+    },
+    "session_token": "434734adeba842d08c0fbd98e8879ec5",
+    "last_mac": "4C:EB:BD:02:1A:EB"
+  }
+]
